@@ -2661,7 +2661,6 @@
       var d = document;
       var tag = d.createElement('style');
 
-      d.getElementsByTagName('head')[0].appendChild(tag);
       tag.setAttribute('type', 'text/css');
       tag.setAttribute('id', this.options.style_tag_id_prefix + this.instanceId);
 
@@ -2670,6 +2669,9 @@
       }else{
         tag.appendChild(document.createTextNode(css));
       }
+      // tag.styleSheet in IE8 is sometimes not defined if the tag is appended
+      // to the head first, so make the appendChild the last operation.
+      d.getElementsByTagName('head')[0].appendChild(tag);
       return this;
     };
 
